@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "./App.css";
 
 const CurrencyConverter = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState("");
 
-  const handleConvert = () => {
-    const amountValue = parseFloat(amount);
+  const handleConvert = (event) => {
+    event.preventDefault();
+
+    const amountValue = parseFloat(event.currentTarget.elements.amount.value);
 
     if (isNaN(amountValue) || amountValue <= 0) {
       setResult("Wprowadź poprawną dodatnią kwotę.");
@@ -30,16 +32,15 @@ const CurrencyConverter = () => {
           setResult("Wystąpił błąd podczas pobierania danych.");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setResult("Wystąpił błąd podczas pobierania danych.");
-        console.error(error);
       });
   };
 
   return (
     <div className="container">
       <h1 className="header">Przelicznik Walut</h1>
-      <div className="form">
+      <form className="form" onSubmit={handleConvert}>
         <label className="label" htmlFor="currency">
           Wybierz walutę:{" "}
         </label>
@@ -62,18 +63,19 @@ const CurrencyConverter = () => {
           className="table"
           id="amount"
           type="number"
+          name="amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
 
-        <button className="btn" id="convertBtn" onClick={handleConvert}>
+        <button className="btn" id="convertBtn" type="submit">
           Przelicz
         </button>
 
         <p className="result" id="result">
           {result}
         </p>
-      </div>
+      </form>
     </div>
   );
 };
