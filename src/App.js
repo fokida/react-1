@@ -1,14 +1,10 @@
-import React, { useState } from "react";
 import "./App.css";
 
 const CurrencyConverter = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [amount, setAmount] = useState("");
-  const [result, setResult] = useState("");
-
   const handleConvert = (event) => {
     event.preventDefault();
 
+    const selectedCurrency = event.currentTarget.elements.currency.value;
     const amountValue = parseFloat(event.currentTarget.elements.amount.value);
 
     if (isNaN(amountValue) || amountValue <= 0) {
@@ -37,44 +33,34 @@ const CurrencyConverter = () => {
       });
   };
 
+  const setResult = (message) => {
+    const resultElement = document.getElementById("result");
+    if (resultElement) {
+      resultElement.innerText = message;
+    }
+  };
+
   return (
     <div className="container">
       <h1 className="header">Przelicznik Walut</h1>
       <form className="form" onSubmit={handleConvert}>
         <label className="label" htmlFor="currency">
-          Wybierz walutę:{" "}
+          Wybierz walutę:
         </label>
-        <select
-          className="table"
-          id="currency"
-          value={selectedCurrency}
-          onChange={(e) => setSelectedCurrency(e.target.value)}
-        >
+        <select className="table" id="currency" name="currency">
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
           <option value="CHF">CHF</option>
         </select>
         <br />
-
         <label className="label" htmlFor="amount">
-          Kwota:{" "}
+          Kwota:
         </label>
-        <input
-          className="table"
-          id="amount"
-          type="number"
-          name="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-
+        <input className="table" id="amount" type="number" name="amount" />
         <button className="btn" id="convertBtn" type="submit">
           Przelicz
         </button>
-
-        <p className="result" id="result">
-          {result}
-        </p>
+        <p className="result" id="result"></p>
       </form>
     </div>
   );
