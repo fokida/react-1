@@ -1,6 +1,8 @@
+import { useState } from "react";
 import "./App.css";
 
 const CurrencyConverter = () => {
+  const [result, setResult] = useState("");
   const handleConvert = (event) => {
     event.preventDefault();
 
@@ -33,13 +35,6 @@ const CurrencyConverter = () => {
       });
   };
 
-  const setResult = (message) => {
-    const resultElement = document.getElementById("result");
-    if (resultElement) {
-      resultElement.innerText = message;
-    }
-  };
-
   return (
     <div className="container">
       <h1 className="header">Przelicznik Walut</h1>
@@ -60,7 +55,7 @@ const CurrencyConverter = () => {
         <button className="btn" id="convertBtn" type="submit">
           Przelicz
         </button>
-        <p className="result" id="result"></p>
+        <p className="result">{result}</p>
       </form>
     </div>
   );
